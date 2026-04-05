@@ -1,0 +1,1 @@
+print("OJT Scanner is running...")

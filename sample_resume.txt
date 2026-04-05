@@ -1,0 +1,56 @@
+JUAN DELA CRUZ
+Email: juan.delacruz@email.com | Phone: +63 912 345 6789
+Location: Angeles City, Pampanga, Philippines
+LinkedIn: linkedin.com/in/juandelacruz
+
+OBJECTIVE
+A motivated IT student seeking oppurtunities to apply my skills in software development and contribute to
+a dynamic team enviornment.
+
+EDUCATION
+Bachelor of Science in Information Technology
+Holy Angel University, Angeles City, Pampanga
+Expected Graduation: 2025
+
+WORK EXPERIENCE
+Freelance Web Developer | Self-Employed | June 2023 - Present
+- Made websites for local businesses
+- Used HTML, CSS, JavaScript and some PHP
+- Helped clients with their problems
+
+IT Assistant Intern | ABC Company, Mabalacat | March 2023 - May 2023
+- Did various tasks for the IT department
+- Fixed computers and helped employees
+- Answered help desk tickets
+
+TECHNICAL SKILLS
+Programming Languages: Python, Java, JavaScript, HTML/CSS, PHP
+Frameworks: React, Laravel, Bootstrap
+Tools: Git, VS Code, MySQL, Figma
+Other: Microsoft Office, Google Workspace
+
+SOFT SKILLS
+- Problem-solving
+- Team player
+- Communication
+- Leadership
+- Time management
+
+PROJECTS
+Library Management System (2023)
+- Built a library system using PHP and MySQL for school capstone
+- Has login, book management, and borrowing features
+
+Personal Portfolio Website
+- Created using React and deployed on Netlify
+
+CERTIFICATIONS
+- Oracle Certified Associate (in progress)
+- Google IT Support Certificate (2022)
+
+LANGUAGES
+- Filipino (Native)
+- English (Professional)
+
+REFERENCES
+Available upon request
