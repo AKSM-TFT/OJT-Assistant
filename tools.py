@@ -159,3 +159,32 @@ def find_internships_tool(
             results.append(f"Query: {q}\nError: {e}")
  
     return "\n\n---\n\n".join(results)
+
+# Tool 5 — Cover Letter Generator
+ 
+COVER_LETTER_SYSTEM = """You are a master cover letter writer. Write a tailored, compelling
+cover letter. Rules:
+- NEVER open with "I am writing to apply for..."
+- Hook with a real achievement from the resume in the first sentence
+- Connect 2–3 specific accomplishments to the target role
+- Close with confident next-step language
+- 3–4 tight paragraphs, under 350 words
+- Professional but warm — sounds like a real person
+ 
+Return the full cover letter text only, ready to send."""
+ 
+ 
+@tool
+def cover_letter_tool(
+    scan_json: Annotated[str, "The JSON string returned by scan_resume_tool."],
+    job_target: Annotated[str, "The role the candidate is applying for."],
+    company: Annotated[str, "The target company name."] = "the company",
+) -> str:
+    """
+    Write a tailored cover letter for the candidate based on their resume data,
+    the target role, and the target company.
+    """
+    return _call_llm(
+        COVER_LETTER_SYSTEM,
+        f"Resume data:\n{scan_json}\n\nTarget Role: {job_target}\nTarget Company: {company}\n\nWrite the cover letter."
+    )
