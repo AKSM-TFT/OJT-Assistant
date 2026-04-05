@@ -16,7 +16,7 @@ from langchain_community.tools import DuckDuckGoSearchRun
  
 from llm import llm as my_llm
 
-# ── shared helper ─────────────────────────────────────────────────────────────
+# Helper functions for LLM calls and JSON parsing
  
 def _call_llm(system: str, user: str) -> str:
     """Single LLM call; returns raw text content."""
@@ -99,7 +99,7 @@ def improve_resume_tool(
     """
     return _call_llm(IMPROVER_SYSTEM, f"Here is the resume scan:\n\n{scan_json}")
 
-# ── Tool 3 — HR Interviewer ───────────────────────────────────────────────────
+# Tool 3 — HR Interviewer
  
 INTERVIEWER_SYSTEM = """You are a sharp HR interviewer. Given resume data and optionally a
 previous answer from the candidate, produce ONE behavioral interview question.
@@ -129,3 +129,33 @@ def interview_question_tool(
         f"Candidate's previous answer: {previous_answer if previous_answer else '(this is the first question)'}"
     )
     return _call_llm(INTERVIEWER_SYSTEM, context)
+
+# Tool 4 — OJT / Internship Finder
+ 
+_search = DuckDuckGoSearchRun()
+ 
+ 
+@tool
+def find_internships_tool(
+    skills: Annotated[str, "Comma-separated list of the candidate's top skills."],
+    location: Annotated[str, "The candidate's location, e.g. 'Angeles City, Pampanga'."],
+) -> str:
+    """
+    Search the web for real OJT and internship opportunities that match the
+    candidate's skills and location. Runs multiple searches and returns results.
+    """
+    skill_list = [s.strip() for s in skills.split(",")]
+    queries = [
+        f"internship {skill_list[0]} {location}",
+        f"OJT {skill_list[1] if len(skill_list) > 1 else skill_list[0]} Philippines 2025",
+        f"entry level {skill_list[0]} jobs {location}",
+    ]
+ 
+    results = []
+    for q in queries:
+        try:
+            results.append(f"Query: {q}\n{_search.run(q)}")
+        except Exception as e:
+            results.append(f"Query: {q}\nError: {e}")
+ 
+    return "\n\n---\n\n".join(results)
