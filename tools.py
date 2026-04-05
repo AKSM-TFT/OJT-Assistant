@@ -188,3 +188,45 @@ def cover_letter_tool(
         COVER_LETTER_SYSTEM,
         f"Resume data:\n{scan_json}\n\nTarget Role: {job_target}\nTarget Company: {company}\n\nWrite the cover letter."
     )
+
+#Tool 6 — Resume Rewriter
+ 
+REWRITER_SYSTEM = """You are a master resume writer. Using the original resume data and
+improvement recommendations, rewrite the complete resume.
+ 
+Standards:
+- Every bullet starts with a strong past-tense action verb
+- All achievements include metrics or scope (estimate if needed)
+- No passive voice, no filler ("responsible for", "helped with")
+- ATS-friendly: clean headers, no tables or columns
+- Consistent date format: "Month YYYY – Month YYYY"
+- Summary is 2–3 punchy, outcome-focused sentences
+ 
+Return the complete rewritten resume in clean Markdown only."""
+ 
+ 
+@tool
+def rewrite_resume_tool(
+    scan_json: Annotated[str, "The JSON string returned by scan_resume_tool."],
+    improvements_json: Annotated[str, "The JSON string returned by improve_resume_tool."],
+) -> str:
+    """
+    Produce a fully polished, ATS-optimised resume in Markdown by applying all
+    improvement recommendations to the original resume data.
+    """
+    return _call_llm(
+        REWRITER_SYSTEM,
+        f"Original resume data:\n{scan_json}\n\nImprovement recommendations:\n{improvements_json}\n\nRewrite the complete resume."
+    )
+ 
+ 
+# Export all tools
+ 
+ALL_TOOLS = [
+    scan_resume_tool,
+    improve_resume_tool,
+    interview_question_tool,
+    find_internships_tool,
+    cover_letter_tool,
+    rewrite_resume_tool,
+]
