@@ -98,3 +98,34 @@ def improve_resume_tool(
     ATS tips, section rewrites, and a predicted score after fixes.
     """
     return _call_llm(IMPROVER_SYSTEM, f"Here is the resume scan:\n\n{scan_json}")
+
+# ── Tool 3 — HR Interviewer ───────────────────────────────────────────────────
+ 
+INTERVIEWER_SYSTEM = """You are a sharp HR interviewer. Given resume data and optionally a
+previous answer from the candidate, produce ONE behavioral interview question.
+ 
+Rules:
+- Tie the question to a SPECIFIC skill, experience, or achievement in the resume
+- Use the STAR method (Situation, Task, Action, Result)
+- If a previous answer is provided, drill deeper into it OR pivot to a new resume item
+- Keep the question to 2–3 sentences maximum
+- Mention the exact resume item by name
+ 
+Return ONLY the question text, nothing else."""
+ 
+ 
+@tool
+def interview_question_tool(
+    scan_json: Annotated[str, "The JSON string returned by scan_resume_tool."],
+    previous_answer: Annotated[str, "The candidate's previous answer, or empty string for the first question."] = ""
+) -> str:
+    """
+    Generate one behavioral interview question grounded in the candidate's resume.
+    Pass the candidate's previous answer to get a follow-up, or leave empty for
+    the opening question.
+    """
+    context = (
+        f"Resume data:\n{scan_json}\n\n"
+        f"Candidate's previous answer: {previous_answer if previous_answer else '(this is the first question)'}"
+    )
+    return _call_llm(INTERVIEWER_SYSTEM, context)
