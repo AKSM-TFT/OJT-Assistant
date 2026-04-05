@@ -34,7 +34,7 @@ def _parse_json(raw: str) -> dict:
     return json.loads(text.strip())
  
  
-# ── Tool 1 — Resume Scanner ───────────────────────────────────────────────────
+# Tool 1 — Resume Scanner 
  
 SCANNER_SYSTEM = """You are a professional resume analyst with 15+ years of HR experience.
 Scan the resume and return a JSON object with EXACTLY this structure:
@@ -67,3 +67,34 @@ def scan_resume_tool(
     """
     result = _call_llm(SCANNER_SYSTEM, f"Scan this resume:\n\n{resume_text}")
     return result  # return raw JSON string so the LLM can read it
+
+# Tool 2 — Improvement Advisor
+ 
+IMPROVER_SYSTEM = """You are an elite resume coach. Given a resume scan JSON, return improvement
+recommendations as a JSON object with EXACTLY this structure:
+{
+  "priority_fixes": [
+    {"issue":"","current":"","suggested":"","impact":"high|medium|low","why":""}
+  ],
+  "section_rewrites": {
+    "summary": "improved version or null",
+    "experience_bullets": [],
+    "skills_additions": []
+  },
+  "ats_tips": [],
+  "formatting_improvements": [],
+  "overall_advice": "",
+  "predicted_score_after_improvements": 0
+}
+Return ONLY valid JSON."""
+ 
+ 
+@tool
+def improve_resume_tool(
+    scan_json: Annotated[str, "The JSON string returned by scan_resume_tool."]
+) -> str:
+    """
+    Analyse the resume scan result and return concrete, prioritised improvements,
+    ATS tips, section rewrites, and a predicted score after fixes.
+    """
+    return _call_llm(IMPROVER_SYSTEM, f"Here is the resume scan:\n\n{scan_json}")
